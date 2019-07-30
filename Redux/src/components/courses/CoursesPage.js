@@ -1,49 +1,40 @@
 import React from "react";
 import { connect } from "react-redux";
 import * as courseActions from "../../redux/actions/courseActions";
+import * as authorActions from "../../redux/actions/authorActions";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
+import CourseList from "./CourseList";
 
 class CoursePage extends React.Component {
-  state = {
-    course: {
-      title: ""
+  componentDidMount() {
+    const { actions, courses, authors } = this.props;
+
+    if (courses.length === 0) {
+      actions.loadCourses().catch(error => {
+        alert("Loading courses failed " + error);
+      });
     }
-  };
 
-  /* Стрелочная функция, чтобы не биндить функцию в конструкторе */
-  handleChange = event => {
-    /* Клонируем state, чтобы сохранять его неизменным */
-    const course = { ...this.state.course, title: event.target.value };
-
-    this.setState({ course });
-  };
-
-  handleSubmit = event => {
-    event.preventDefault();
-    this.props.actions.createCourse(this.state.course);
-  };
+    if (authors.length === 0) {
+      actions.loadAuthors().catch(error => {
+        alert("Loading authors failed " + error);
+      });
+    }
+  }
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <>
         <h2>Courses</h2>
-        <h3> Add course</h3>
-        <input
-          type="text"
-          onChange={this.handleChange}
-          value={this.state.course.title}
-        />
-        <input type="submit" value="Save" />
-        {this.props.courses.map(course => (
-          <div key={course.title}>{course.title}</div>
-        ))}
-      </form>
+        <CourseList courses={this.props.courses} />
+      </>
     );
   }
 }
 
 CoursePage.propTypes = {
+  authors: PropTypes.array.isRequired,
   courses: PropTypes.array.isRequired,
   actions: PropTypes.object.isRequired
 };
@@ -53,7 +44,16 @@ function mapStateToProps(state) {
   // Будьте точны. Запрашивайте только данные, которые нужны компоненту.
   // Компонент перерендерится когда изменятся данные в store
   return {
-    courses: state.courses
+    courses:
+      state.authors.length === 0
+        ? []
+        : state.courses.map(course => {
+            return {
+              ...course,
+              authorName: state.authors.find(a => a.id === course.authorId).name
+            };
+          }),
+    authors: state.authors
   };
 }
 
@@ -62,7 +62,10 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   // обязательно вызывайте dispatch, иначе ничего не произойдет
   return {
-    actions: bindActionCreators(courseActions, dispatch)
+    actions: {
+      loadCourses: bindActionCreators(courseActions.loadCourses, dispatch),
+      loadAuthors: bindActionCreators(authorActions.loadAuthors, dispatch)
+    }
   };
 }
 
