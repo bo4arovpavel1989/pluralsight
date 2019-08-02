@@ -1,18 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import CourseListHeader from "./CourseListHeader";
 
 const CourseList = ({ courses, onDeleteClick, onSortClick }) => (
   <table className="table">
-    <thead>
-      <tr>
-        <th />
-        <th onClick={() => onSortClick("title")}>Title</th>
-        <th onClick={() => onSortClick("authorName")}>Author</th>
-        <th onClick={() => onSortClick("category")}>Category</th>
-        <th />
-      </tr>
-    </thead>
+    <CourseListHeader onSortClick={onSortClick} />
     <tbody>
       {courses.map(course => {
         return (

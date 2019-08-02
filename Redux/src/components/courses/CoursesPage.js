@@ -37,9 +37,12 @@ class CoursePage extends React.Component {
     });
   };
 
-  handleSortClick = header => {
+  handleSortClick = event => {
+    const header = event.target.dataset.header;
     this.props.actions.sortCourses(header);
   };
+
+  arrowHandler = () => {};
 
   render() {
     return (
