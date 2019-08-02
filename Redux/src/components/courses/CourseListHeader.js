@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as courseActions from "../../redux/actions/courseActions";
 import { bindActionCreators } from "redux";
+import "./triangles.css";
 
 const CourseListHeader = ({ actions, sort }) => {
   const headers = [
@@ -25,11 +26,15 @@ const CourseListHeader = ({ actions, sort }) => {
           return (
             <th key={short} data-header={short} onClick={handleSortClick}>
               {full} &nbsp;
-              {sort.header === short
-                ? sort.direction > 0
-                  ? "&#9660;"
-                  : "&#9650;"
-                : ""}
+              {sort.header === short ? (
+                sort.direction > 0 ? (
+                  <span className="triangle-up" />
+                ) : (
+                  <span className="triangle-down" />
+                )
+              ) : (
+                ""
+              )}
             </th>
           );
         })}
