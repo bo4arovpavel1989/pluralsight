@@ -1,7 +1,9 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
-const Header = () => {
+const Header = ({ numCourses }) => {
   const activeStyle = { color: "#F15B2A" };
 
   return (
@@ -15,10 +17,22 @@ const Header = () => {
       </NavLink>
       {" | "}
       <NavLink to="/courses" activeStyle={activeStyle}>
-        Courses
+        Courses ({numCourses})
       </NavLink>
     </nav>
   );
 };
 
-export default Header;
+function mapStateToProps(state) {
+  return {
+    numCourses: state.courses.length
+  };
+}
+
+Header.propTypes = {
+  numCourses: PropTypes.number.isRequired
+};
+
+// connect автоматически добавляет dispatch в props,
+// если мы опускаем mapDispatchToProps (2-й аргумент connect)
+export default connect(mapStateToProps)(Header);

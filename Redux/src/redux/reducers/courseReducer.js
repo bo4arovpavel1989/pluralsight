@@ -1,5 +1,6 @@
 import * as types from "../actions/actionTypes";
 import initialState from "./initialState";
+import { coursesSortFn } from "../../utils";
 
 export default function courseReducer(state = initialState.courses, action) {
   switch (action.type) {
@@ -14,6 +15,10 @@ export default function courseReducer(state = initialState.courses, action) {
       return action.courses;
     case types.DELETE_COURSE_OPTIMISTIC:
       return state.filter(course => action.course.id !== course.id);
+    case types.SORT_COURSES_ACTION:
+      return state
+        .slice()
+        .sort((a, b) => coursesSortFn(a, b, action.sort.courses));
     default:
       return state;
   }

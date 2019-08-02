@@ -37,6 +37,10 @@ class CoursePage extends React.Component {
     });
   };
 
+  handleSortClick = header => {
+    this.props.actions.sortCourses(header);
+  };
+
   render() {
     return (
       <>
@@ -55,6 +59,7 @@ class CoursePage extends React.Component {
             </button>
             <CourseList
               onDeleteClick={this.handleDeleteCourse}
+              onSortClick={this.handleSortClick}
               courses={this.props.courses}
             />
           </>
@@ -98,7 +103,8 @@ function mapDispatchToProps(dispatch) {
     actions: {
       loadCourses: bindActionCreators(courseActions.loadCourses, dispatch),
       loadAuthors: bindActionCreators(authorActions.loadAuthors, dispatch),
-      deleteCourse: bindActionCreators(courseActions.deleteCourse, dispatch)
+      deleteCourse: bindActionCreators(courseActions.deleteCourse, dispatch),
+      sortCourses: bindActionCreators(courseActions.sortCourses, dispatch)
     }
   };
 }

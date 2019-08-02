@@ -2,14 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
-const CourseList = ({ courses, onDeleteClick }) => (
+const CourseList = ({ courses, onDeleteClick, onSortClick }) => (
   <table className="table">
     <thead>
       <tr>
         <th />
-        <th>Title</th>
-        <th>Author</th>
-        <th>Category</th>
+        <th onClick={() => onSortClick("title")}>Title</th>
+        <th onClick={() => onSortClick("authorId")}>Author</th>
+        <th onClick={() => onSortClick("category")}>Category</th>
         <th />
       </tr>
     </thead>
@@ -47,7 +47,8 @@ const CourseList = ({ courses, onDeleteClick }) => (
 
 CourseList.propTypes = {
   courses: PropTypes.array.isRequired,
-  onDeleteClick: PropTypes.func.isRequired
+  onDeleteClick: PropTypes.func.isRequired,
+  onSortClick: PropTypes.func.isRequired
 };
 
 export default CourseList;

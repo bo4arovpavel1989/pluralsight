@@ -30,6 +30,14 @@ export function deleteCpurseOptimistic(course) {
   };
 }
 
+export function sortCoursesAction(sort) {
+  return { type: types.SORT_COURSES_ACTION, sort };
+}
+
+export function changeSort(header) {
+  return { type: types.CHANGE_COURSES_SORT, header };
+}
+
 export function loadCourses() {
   return function(dispatch) {
     dispatch(beginApiCall());
@@ -46,7 +54,7 @@ export function loadCourses() {
 }
 
 export function saveCourse(course) {
-  return function(dispatch, getState) {
+  return function(dispatch) {
     dispatch(beginApiCall());
     return courseApi
       .saveCourse(course)
@@ -66,5 +74,15 @@ export function deleteCourse(course) {
   return function(dispatch) {
     dispatch(deleteCpurseOptimistic(course));
     return courseApi.deleteCourse(course.id);
+  };
+}
+
+export function sortCourses(header) {
+  return function(dispatch, getState) {
+    dispatch(changeSort(header));
+
+    const { sort } = getState();
+
+    dispatch(sortCoursesAction(sort));
   };
 }
