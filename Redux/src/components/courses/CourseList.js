@@ -8,7 +8,7 @@ const CourseList = ({ courses, onDeleteClick, onSortClick }) => (
       <tr>
         <th />
         <th onClick={() => onSortClick("title")}>Title</th>
-        <th onClick={() => onSortClick("authorId")}>Author</th>
+        <th onClick={() => onSortClick("authorName")}>Author</th>
         <th onClick={() => onSortClick("category")}>Category</th>
         <th />
       </tr>

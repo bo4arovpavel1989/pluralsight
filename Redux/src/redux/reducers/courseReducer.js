@@ -17,8 +17,14 @@ export default function courseReducer(state = initialState.courses, action) {
       return state.filter(course => action.course.id !== course.id);
     case types.SORT_COURSES_ACTION:
       return state
-        .slice()
-        .sort((a, b) => coursesSortFn(a, b, action.sort.courses));
+        .map(course => ({
+          ...course,
+          authorName: action.authors.find(val => val.id === course.authorId)
+            .name
+        }))
+        .sort((a, b) =>
+          coursesSortFn(a, b, action.sort.courses, action.authors)
+        );
     default:
       return state;
   }

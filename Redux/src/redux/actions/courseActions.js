@@ -30,8 +30,8 @@ export function deleteCpurseOptimistic(course) {
   };
 }
 
-export function sortCoursesAction(sort) {
-  return { type: types.SORT_COURSES_ACTION, sort };
+export function sortCoursesAction({ sort, authors }) {
+  return { type: types.SORT_COURSES_ACTION, sort, authors };
 }
 
 export function changeSort(header) {
@@ -81,8 +81,8 @@ export function sortCourses(header) {
   return function(dispatch, getState) {
     dispatch(changeSort(header));
 
-    const { sort } = getState();
+    const { sort, authors } = getState();
 
-    dispatch(sortCoursesAction(sort));
+    dispatch(sortCoursesAction({ sort, authors }));
   };
 }
